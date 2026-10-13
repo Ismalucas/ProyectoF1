@@ -2,6 +2,7 @@ import os
 import requests
 import pandas as pd
 from datetime import timedelta
+import numpy as np
 
 BASE_OPENF1 = "https://api.openf1.org/v1"
 
@@ -13,7 +14,6 @@ class F1DataExtractor:
         self.year = year
 
     def get_qualy_laps(self, max_lap_time=75.0):
-        """Obtiene únicamente las 10 vueltas rápidas lanzadas"""
         url = f"{BASE_OPENF1}/laps?session_key={self.session_key}&driver_number={self.driver_number}"
         res = requests.get(url).json()
         
@@ -29,8 +29,7 @@ class F1DataExtractor:
                 'duration_sector_2': lap.get('duration_sector_2'),
                 'duration_sector_3': lap.get('duration_sector_3'),
                 'st_speed': lap.get('st_speed'),
-                'date_start': lap.get('date_start'),
-                'is_pit_out_lap': lap.get('is_pit_out_lap')
+                'date_start': lap.get('date_start')
             })
         
         df = pd.DataFrame(laps_data)
@@ -120,7 +119,7 @@ class F1DataExtractor:
         os.makedirs(output_dir, exist_ok=True)
         
         print("Obteniendo resumen de vueltas...")
-        laps_df = self.get_qualy_laps(max_lap_time=75.0)
+        laps_df = self.get_qualy_laps(max_lap_time=76.0)
         laps_path = os.path.join(output_dir, "monaco_2023_ver_laps.csv")
         laps_df.to_csv(laps_path, index=False)
         print(f"Vueltas guardadas en: {laps_path} ({len(laps_df)} vueltas válidas)\n")
