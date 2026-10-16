@@ -2,6 +2,106 @@
 title: "ProyectoF1_Quarto"
 ---
 
-## Quarto
+```{r}
+install.packages(c(
+  "httr2",
+  "jsonlite",
+  "dplyr",
+  "purrr",
+  "tidyr",
+  "ggplot2",
+  "arrow"
+))
+```
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+```{r}
+# R/01_get_session.R
+
+library(jsonlite)
+library(dplyr)
+
+sessions <- fromJSON(
+  "https://api.openf1.org/v1/sessions?year=2023"
+)
+
+names(sessions)
+
+sessions %>%
+  filter(country_name == "Monaco") %>%
+  select(
+    session_key,
+    country_name,
+    session_name,
+    date_start
+  )
+```
+
+```{r}
+dir.create("data", showWarnings = FALSE)
+
+dir.create(
+  "data/raw",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+dir.create(
+  "data/processed",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+dir.create(
+  "figures",
+  showWarnings = FALSE
+)
+
+dir.create(
+  "R",
+  showWarnings = FALSE
+)
+```
+
+```{r}
+saveRDS(
+  laps,
+  "data/raw/laps.rds"
+)
+```
+
+Vuelta rapida por piloto
+
+```{r}
+library(dplyr)
+
+best_laps <- laps %>%
+  filter(!is.na(lap_duration)) %>%
+  group_by(driver_number) %>%
+  summarise(
+    best_lap = min(lap_duration)
+  ) %>%
+  arrange(best_lap)
+
+best_laps
+```
+
+Pilotos
+
+```{r}
+drivers <- fromJSON(
+  "https://api.openf1.org/v1/drivers?session_key=9090"
+)
+```
+
+```{r}
+drivers %>%
+  select(
+    driver_number,
+    full_name,
+    team_name
+  )
+```
+
+```{r}
+
+```
