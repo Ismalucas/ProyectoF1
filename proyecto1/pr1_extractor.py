@@ -7,6 +7,8 @@ import time
 
 BASE_OPENF1 = "https://api.openf1.org/v1"
 
+#1
+
 class F1DataExtractor:
     def __init__(self, session_key=9090, circuit_key=22, year=2023):
         self.session_key = session_key
@@ -67,7 +69,7 @@ class F1DataExtractor:
 
         return df.reset_index(drop=True)
 
-    def get_full_session_telemetry(self, laps_df, margin_seconds=3):
+    def get_full_session_telemetry(self, laps_df, margin_seconds=7):
         """Extrae la telemetría y posición para cada una de las vueltas"""
         all_telemetry = []
 

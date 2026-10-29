@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 
+#2
+
 # 1. Cargar los archivos originales
 laps = pd.read_csv('data/monaco_2023_ver_laps.csv')
 tel = pd.read_csv('data/monaco_2023_ver_telemetry.csv')
