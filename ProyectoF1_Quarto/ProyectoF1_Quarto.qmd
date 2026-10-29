@@ -2,6 +2,16 @@
 title: "ProyectoF1"
 ---
 
+1. Introducción
+2. Obtención de datos
+3. Construcción de microsectores
+4. Análisis descriptivo
+5. Vuelta ideal
+6. PCA y clustering
+7. Regresión LASSO
+8. Modelo mixto
+9. Conclusiones
+
 ## Introducción
 
 En la actualidad el análisis de datos se ha convertido en parte fundamental del deporte de elite, aportando grandes volúmenes de información que permiten estudiar el rendimiento de los deportistas desde una perspectiva objetiva y cuantitativa.

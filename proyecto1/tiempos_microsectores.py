@@ -99,3 +99,93 @@ microsectors.to_csv(
     "data/microsector_times.csv",
     index=False
 )
+
+
+# =====================
+# Sectores
+# =====================
+
+sectors = (
+    microsectors
+    .groupby(
+        ["driver_number", "lap_number", "sector"],
+        as_index=False
+    )
+    .agg(
+        sector_time=("segment_time", "sum"),
+        avg_speed=("avg_speed", "mean"),
+        date_start=("date_start", "min"),
+        date_end=("date_end", "max")
+    )
+)
+
+# =====================
+# Vueltas
+# =====================
+
+laps = (
+    microsectors
+    .groupby(
+        ["driver_number", "lap_number"],
+        as_index=False
+    )
+    .agg(
+        lap_time=("segment_time", "sum"),
+        avg_speed=("avg_speed", "mean"),
+        date_start=("date_start", "min"),
+        date_end=("date_end", "max")
+    )
+)
+
+# =====================
+# Guardar
+# =====================
+
+sectors.to_csv(
+    "data/sector_times.csv",
+    index=False
+)
+
+laps.to_csv(
+    "data/lap_times_reconstructed.csv",
+    index=False
+)
+
+laps.sort_values("lap_time").head(20)
+
+microsectors.groupby(
+    ["driver_number", "lap_number"]
+).size().describe()
+
+microsectors.groupby(
+    ["driver_number", "lap_number"]
+).size().value_counts()
+
+laps[
+    laps["driver_number"] == 77
+].sort_values("lap_time")
+
+microsectors[
+    (microsectors["driver_number"] == 1)
+    &
+    (microsectors["lap_number"] == 17)
+]
+
+driver = 77
+lap = 18
+
+markers = df[
+    df["point_type"].isin(
+        ["Inicio","Microsector","Sector","Fin"]
+    )
+]
+
+print(
+    markers[
+        ["date_dt","point_type"]
+    ]
+)
+
+microsectors.groupby(
+    ["driver_number", "lap_number"]
+)["microsector"].nunique()
